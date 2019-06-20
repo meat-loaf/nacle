@@ -34,27 +34,31 @@ func loadPage(title string) (*Page, error) {
 }
 
 func mainHandler(w http.ResponseWriter, r *http.Request){
-	fmt.Println(r.URL.Path);
 	s := strings.ReplaceAll(r.URL.Path, "/", ".")
-	fmt.Println(s)
-	fmt.Println(s[1:])
-	test := Page {s[1:], nil}
-	fmt.Println(test)
-	fmt.Println(w)
-
 	err := templ.ExecuteTemplate(w, s[1:]+".template.html", Page{s, nil})
 	//TODO seems the header is already written in this case. Why?
 	if err != nil {
-		fmt.Println(err)
-		templ.ExecuteTemplate(w, "404.template.html", Page{"ya dun goofed, buddy", nil});
-		w.WriteHeader(http.StatusNotFound)
+		fmt.Println(err);
 	}
 }
+
+func root_handler(w http.ResponseWriter, r *http.Request){
+	if r.URL.Path == "/" {
+		err := templ.ExecuteTemplate(w, "main.template.html", Page{"main.", nil})
+		if err != nil {
+			fmt.Println(err);
+		}
+	} else {
+		w.WriteHeader(http.StatusNotFound)
+		templ.ExecuteTemplate(w, "404.template.html", Page{"ya dun goofed, buddy", nil});
+	}
+}
+
 //from stack overflow...
 func ParseTemplates(location string) *template.Template {
 	templLocal := template.New("")
 	err := filepath.Walk(location, func(path string, info os.FileInfo, err error) error {
-		if strings.Contains(path, ".template.html"){
+		if strings.HasSuffix(path, ".template.html"){
 			_, err = templLocal.ParseFiles(path)
 			if err != nil {
 				;//do something i guess?
@@ -70,6 +74,8 @@ func ParseTemplates(location string) *template.Template {
 
 func main() {
 	templ = ParseTemplates("./templates")
-	http.HandleFunc("/", mainHandler)
+	http.HandleFunc("/main", mainHandler)
+	http.HandleFunc("/", root_handler)
+	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("./img/"))))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
