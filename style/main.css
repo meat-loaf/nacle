@@ -1,14 +1,43 @@
+div.navigation {
+	padding: 8px;
+	position: relative;
+	left: 10%;
+	background-color:black;
+}
+
+div.wrapper {
+	position: fixed;
+	left: 3%;
+	top: 3%;
+}
+
+body {
+	font-family: Garamond, serif;
+	margin: 50px;
+}
+
 ul {
 	list-style-type: none;
 	display: block;
 	margin: 0;
-	padding: 0;
 }
 
 li {
+	padding-top: 8px;
+	padding-bottom: 8px;
 	display: inline;
+	background-color: #aaaaaa;
 }
 
-li.a {
+a {
+	padding: 8px;
+	border: 1px solid;
 	text-align: center;
+	text-decoration: none;
+	transition: background .2s ease;
+	color: black
+}
+a:hover{
+	background-color: #dddddd;
+	transition: background .2s ease;
 }
