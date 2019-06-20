@@ -77,5 +77,6 @@ func main() {
 	http.HandleFunc("/main", mainHandler)
 	http.HandleFunc("/", root_handler)
 	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("./img/"))))
+	http.Handle("/style/", http.StripPrefix("/style/", http.FileServer(http.Dir("./style/"))))
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
