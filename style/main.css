@@ -1,14 +1,12 @@
-div.navigation {
-	padding: 8px;
+#navigation {
+	border: 1px solid #ccc;
+	border-width: 1px 0;
+	padding: 15px;
 	position: relative;
-	left: 10%;
-	background-color:black;
 }
 
 div.wrapper {
-	position: fixed;
-	left: 3%;
-	top: 3%;
+	width: 100%;
 }
 
 body {
@@ -16,15 +14,19 @@ body {
 	margin: 50px;
 }
 
-ul {
-	list-style-type: none;
-	display: block;
+#navigation ul{
+	width: 100%;
+	list-style: none;
+	display: inline-block;
 	margin: 0;
+	text-align: center;
 }
 
-li {
+#navigation li {
 	padding-top: 8px;
 	padding-bottom: 8px;
+	margin-left: 50px;
+	margin-right: 50px;
 	display: inline;
 	background-color: #aaaaaa;
 }

@@ -2,7 +2,7 @@
 {{template "navigation.template.html" .}}
 <div class="content">
 	<body>
-	<p>hello! welcome to naclesout.com! big dong swinging awaits! :^)</p>
+	<p>{{ .Body | markdown}}</p>
 	</body>
 </div>
 {{template "footer.template.html" . }}
