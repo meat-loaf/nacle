@@ -1,8 +1,11 @@
 #navigation {
 	border: 1px solid #ccc;
 	border-width: 1px 0;
-	padding: 15px;
+	margin: 0;
+	padding: 0;
+	list-style: none;
 	position: relative;
+	text-align:center;
 }
 
 div.wrapper {
@@ -14,32 +17,66 @@ body {
 	margin: 50px;
 }
 
-#navigation ul{
-	width: 100%;
-	list-style: none;
-	display: inline-block;
+
+
+#navigation ul {
+	position: absolute;
+	/*this is actually just magic that shifts 
+	children off screen until hovered */
+	left:-99999px;
+	/*width: 100%;*/
+	/*display: inline-block;*/
 	margin: 0;
-	text-align: center;
+	padding: 0;
+	text-align: left;
 }
 
 #navigation li {
-	padding-top: 8px;
-	padding-bottom: 8px;
-	margin-left: 50px;
-	margin-right: 50px;
+	position: relative;
 	display: inline;
-	background-color: #aaaaaa;
 }
 
-a {
+#navigation ul li {
+	display: block;
+}
+
+#navigation li:hover ul {
+	left: 0;
+}
+
+/*#navigation li:hover a {
+	text-decoration:underline;
+}*/
+
+#navigation ul a {
+	white-space: nowrap;
+	display: block;
+	border-bottom:1px solid #ccc;
+}
+
+#navigation a {
+	background-color: #B16D73;
+	display: inline-block;
 	padding: 8px;
-	border: 1px solid;
+	/*border: 1px solid;*/
 	text-align: center;
 	text-decoration: none;
 	transition: background .2s ease;
-	color: black
+	color: black;
 }
-a:hover{
-	background-color: #dddddd;
+#navigation a:hover{
+	background-color: #9A5259;
 	transition: background .2s ease;
+}
+
+img.paraimg {
+	float:right;
+	position: relative;
+	width: 25%;
+	height: 25%;
+}
+
+div.logo {
+	height: 100px;
+	background-position: center;
 }

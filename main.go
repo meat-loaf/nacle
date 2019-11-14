@@ -35,7 +35,7 @@ func (p *Page) save() error {
 }
 
 func loadPage(title string) (*Page, error) {
-	print(title)
+	fmt.Println(title)
 	filename := "content/" +title[1:] + ".txt"
 	body, err := ioutil.ReadFile(filename)
 	if (err != nil){
@@ -49,7 +49,7 @@ func mainHandler(w http.ResponseWriter, r *http.Request){
 	print("main handler")
 	s := strings.ReplaceAll(r.URL.Path, "/", ".")
 	pg, err := loadPage(s)
-	if(err != nil){
+	if err != nil {
 		return
 	}
 	err = templ.ExecuteTemplate(w, s[1:]+".template.html", pg)
@@ -61,10 +61,15 @@ func mainHandler(w http.ResponseWriter, r *http.Request){
 
 func root_handler(w http.ResponseWriter, r *http.Request){
 	if r.URL.Path == "/" {
-		err := templ.ExecuteTemplate(w, "main.template.html", Page{"main.", nil})
+		s := strings.ReplaceAll(r.URL.Path, "/", ".")
+		pg, err := loadPage(s)
+		//err := templ.ExecuteTemplate(w, "main.template.html", Page{"main.", nil})
 		if err != nil {
 			fmt.Println(err);
+			w.WriteHeader(http.StatusNotFound)
+			templ.ExecuteTemplate(w, "404.template.html", Page{"ya dun goofed, buddy", nil});
 		}
+		err = templ.ExecuteTemplate(w, s[1:]+".template.html", pg)
 	} else {
 		w.WriteHeader(http.StatusNotFound)
 		templ.ExecuteTemplate(w, "404.template.html", Page{"ya dun goofed, buddy", nil});
@@ -93,9 +98,9 @@ func ParseTemplates(location string) *template.Template {
 
 func main() {
 	templ = ParseTemplates("./templates")
-	http.HandleFunc("/main", mainHandler)
 	http.HandleFunc("/", root_handler)
 	//TODO handle these via reverse proxy with apache or some such instead, shouldnt serve these with go
+	http.Handle("/main", main_handler)
 	http.Handle("/img/", http.StripPrefix("/img/", http.FileServer(http.Dir("./img/"))))
 	http.Handle("/style/", http.StripPrefix("/style/", http.FileServer(http.Dir("./style/"))))
 	log.Fatal(http.ListenAndServe(":8080", nil))
